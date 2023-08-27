@@ -5,7 +5,7 @@ import { getPicoApps } from "./pico";
 async function fetchPicoIcons(region: PicoAppRegion) {
     await fs.mkdir(`pico/${region}/assets/icon`, { recursive: true });
 
-    let packageList = (await getPicoApps(region)).map(f => f.package_name);
+    let packageList = (await getPicoApps(region)).map(a => a.package_name);
 
     console.log(`[PICO ${region.toUpperCase()}] Saving app icons...`);
     for (let i = 0; i < packageList.length; i++) {
@@ -26,14 +26,15 @@ async function fetchPicoIcons(region: PicoAppRegion) {
             await fs.writeFile(`pico/${region}/assets/icon/${app.package_name}.png_tmp`, (await fetch(app.icon)).body as any);
             await fs.rename(`pico/${region}/assets/icon/${app.package_name}.png_tmp`, `pico/${region}/assets/square/${app.package_name}.png`);
         } catch (e) {
-            console.log(`[PICO ${region.toUpperCase()}] Error saving icon for ${app.package_name}`);
-            await fs.rm(`pico/${region}/assets/icon/${app.package_name}.png_tmp`);
+            console.log(`[PICO ${region.toUpperCase()}] Error saving icon for ${packageName}`);
+            await fs.rm(`pico/${region}/assets/icon/${packageName}.png_tmp`);
         }
     }
 }
 
 async function fetchAllPicoIcons() {
     fetchPicoIcons(PicoAppRegion.GLOBAL);
+    fetchPicoIcons(PicoAppRegion.CHINA);
 }
 
 fetchAllPicoIcons();

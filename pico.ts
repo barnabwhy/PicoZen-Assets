@@ -11,30 +11,34 @@ export async function getPicoApps(region: PicoAppRegion) {
     let hasMore = true;
 
     while (hasMore) {
-        let res = await fetch(`https://appstore-${region}.picovr.com/api/app/v1/section/info`
-            + `?manifest_version_code=${PICO_OPTS.manifestVerCode}&app_language=${PICO_OPTS.appLang}&device_name=${PICO_OPTS.deviceName}`
-            + `&section_id=${sectionId}&size=${pageSize}&page=${page}`,
-            {
-                method: "POST",
+        try {
+            let res = await fetch(`https://appstore-${region}.picovr.com/api/app/v1/section/info`
+                + `?manifest_version_code=${PICO_OPTS.manifestVerCode}&app_language=${PICO_OPTS.appLang}&device_name=${PICO_OPTS.deviceName}`
+                + `&section_id=${sectionId}&size=${pageSize}&page=${page}`,
+                {
+                    method: "POST",
+                }
+            );
+
+            let { code, msg, data } = await res.json();
+            if (code != 0)
+                throw new Error(`[PICO ${region.toUpperCase()}] An error occurred on Pico's API: ` + msg || 'Unknown error');
+
+            hasMore = data.has_more;
+            page++;
+
+            if(!data.items)
+                break;
+
+            for (const item of data.items) {
+                if(!apps.includes(item))
+                    apps.push(item);
             }
-        );
-
-        let { code, msg, data } = await res.json();
-        if (code != 0)
-            throw new Error(`[PICO ${region.toUpperCase()}] An error occurred on Pico's API: ` + msg || 'Unknown error');
-
-        hasMore = data.has_more;
-        page++;
-
-        if(!data.items)
-            break;
-
-        for (const item of data.items) {
-            if(!apps.includes(item))
-                apps.push(item);
+                
+            console.log(`[PICO ${region.toUpperCase()}] Fetching apps... ${apps.length} found`);
+        } catch(e) {
+            hasMore = false;
         }
-            
-        console.log(`[PICO ${region.toUpperCase()}] Fetching apps... ${apps.length} found`);
     }
 
     return apps;
