@@ -1,7 +1,7 @@
-import { PICO_OPTS, PicoAppInfo, PicoAppRegion, PicoSectionId } from "./pico-data";
+import { PICO_OPTS, PicoAppInfo, PicoAppRegion, PicoSectionId } from "./def/pico-data";
 import fs from "fs/promises";
 
-async function getPicoApps(region: PicoAppRegion) {
+export async function getPicoApps(region: PicoAppRegion) {
     let apps: PicoAppInfo[] = [];
 
     let page = 1;
@@ -40,13 +40,7 @@ async function getPicoApps(region: PicoAppRegion) {
     return apps;
 }
 
-async function fetchPicoData(region: PicoAppRegion) {
-    let apps = await getPicoApps(region);
-    await savePicoInfo(apps, region);
-    await savePicoImages(apps, region);
-}
-
-async function savePicoInfo(apps: PicoAppInfo[], region: PicoAppRegion) {
+export async function savePicoInfo(apps: PicoAppInfo[], region: PicoAppRegion) {
     await fs.mkdir(`pico/${region}/info`, { recursive: true });
 
     console.log(`[PICO ${region.toUpperCase()}] Saving app info...`)
@@ -54,7 +48,7 @@ async function savePicoInfo(apps: PicoAppInfo[], region: PicoAppRegion) {
         await fs.writeFile(`pico/${region}/info/${app.package_name}.json`, JSON.stringify(app));
     }
 }
-async function savePicoImages(apps: PicoAppInfo[], region: PicoAppRegion) {
+export async function savePicoImages(apps: PicoAppInfo[], region: PicoAppRegion) {
     await fs.mkdir(`pico/${region}/assets/banner`, { recursive: true });
     await fs.mkdir(`pico/${region}/assets/square`, { recursive: true });
 
@@ -84,10 +78,3 @@ async function savePicoImages(apps: PicoAppInfo[], region: PicoAppRegion) {
 
     console.log(`[PICO ${region.toUpperCase()}] Saved app covers\n`)
 }
-
-async function fetchPico() {
-    await fetchPicoData(PicoAppRegion.GLOBAL);
-    await fetchPicoData(PicoAppRegion.CHINA);
-}
-
-fetchPico();

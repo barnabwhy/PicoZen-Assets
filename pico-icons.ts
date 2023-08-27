@@ -1,12 +1,13 @@
-import { PICO_OPTS, PicoAppRegion } from "./pico-data";
+import { PICO_OPTS, PicoAppRegion } from "./def/pico-data";
 import fs from 'fs/promises';
+import { getPicoApps } from "./pico";
 
 async function fetchPicoIcons(region: PicoAppRegion) {
     await fs.mkdir(`pico/${region}/assets/icon`, { recursive: true });
 
-    let packageList = (await fs.readdir(`pico/${region}/info`)).map(f => f.replace(/\.json$/, ''));
+    let packageList = (await getPicoApps(region)).map(f => f.package_name);
 
-    console.log(`[PICO ${region.toUpperCase()}] Saving app icons...`)
+    console.log(`[PICO ${region.toUpperCase()}] Saving app icons...`);
     for (let i = 0; i < packageList.length; i++) {
         let packageName = packageList[i];
 
