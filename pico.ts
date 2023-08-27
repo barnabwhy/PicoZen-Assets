@@ -45,11 +45,11 @@ export async function getPicoApps(region: PicoAppRegion) {
 }
 
 export async function savePicoInfo(apps: PicoAppInfo[], region: PicoAppRegion) {
-    await fs.mkdir(`pico/${region}/info`, { recursive: true });
+    await fs.mkdir(`pico/info/${region}`, { recursive: true });
 
     console.log(`[PICO ${region.toUpperCase()}] Saving app info...`)
     for (const app of apps) {
-        await fs.writeFile(`pico/${region}/info/${app.package_name}.json`, JSON.stringify(app));
+        await fs.writeFile(`pico/info/${region}/${app.package_name}.json`, JSON.stringify(app));
     }
 }
 export async function savePicoImages(apps: PicoAppInfo[], region: PicoAppRegion) {
