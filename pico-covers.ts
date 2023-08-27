@@ -7,8 +7,8 @@ async function fetchPicoData(region: PicoAppRegion) {
 }
 
 async function fetchPico() {
-    await fetchPicoData(PicoAppRegion.GLOBAL);
-    await fetchPicoData(PicoAppRegion.CHINA);
+    fetchPicoData(PicoAppRegion.GLOBAL);
+    fetchPicoData(PicoAppRegion.CHINA);
 }
 
 fetchPico();
