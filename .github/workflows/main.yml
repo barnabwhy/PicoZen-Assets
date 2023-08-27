@@ -95,16 +95,19 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: pico-info
+          path: pico/info
 
       - name: Download Pico covers artifact
         uses: actions/download-artifact@v2
         with:
           name: pico-covers
+          path: pico/assets
 
       - name: Download Pico icons artifact
         uses: actions/download-artifact@v2
         with:
           name: pico-icons
+          path: pico/assets
 
       - name: "Commit changes"
         run: |
@@ -112,3 +115,4 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit -m "generated"
+          git push
