@@ -1,6 +1,8 @@
 name: Fetch Assets
 on:
-- workflow_dispatch 
+  schedule:
+    - cron: "0 12 * * 4"
+  workflow_dispatch:
 
 jobs:
   assets:
