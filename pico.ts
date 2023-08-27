@@ -53,8 +53,8 @@ export async function savePicoInfo(apps: PicoAppInfo[], region: PicoAppRegion) {
     }
 }
 export async function savePicoImages(apps: PicoAppInfo[], region: PicoAppRegion) {
-    await fs.mkdir(`pico/${region}/assets/banner`, { recursive: true });
-    await fs.mkdir(`pico/${region}/assets/square`, { recursive: true });
+    await fs.mkdir(`pico/assets/${region}/banner`, { recursive: true });
+    await fs.mkdir(`pico/assets/${region}/square`, { recursive: true });
 
     console.log(`[PICO ${region.toUpperCase()}] Saving app covers...`)
     for (let i = 0; i < apps.length; i++) {
@@ -63,19 +63,19 @@ export async function savePicoImages(apps: PicoAppInfo[], region: PicoAppRegion)
         console.log(`[PICO ${region.toUpperCase()}] Saving app covers... (${i+1}/${apps.length}) | ${app.package_name}`)
 
         try {
-            await fs.writeFile(`pico/${region}/assets/banner/${app.package_name}.png_tmp`, (await fetch(app.cover.landscape)).body as any);
-            await fs.rename(`pico/${region}/assets/banner/${app.package_name}.png_tmp`, `pico/${region}/assets/banner/${app.package_name}.png`);
+            await fs.writeFile(`pico/assets/${region}/banner/${app.package_name}.png_tmp`, (await fetch(app.cover.landscape)).body as any);
+            await fs.rename(`pico/assets/${region}/banner/${app.package_name}.png_tmp`, `pico/assets/${region}/banner/${app.package_name}.png`);
         } catch(e) {
             console.log(`[PICO ${region.toUpperCase()}] Error saving banner image for ${app.package_name}`);
-            await fs.rm(`pico/${region}/assets/banner/${app.package_name}.png_tmp`);
+            await fs.rm(`pico/assets/${region}/banner/${app.package_name}.png_tmp`);
         }
 
         try {
-            await fs.writeFile(`pico/${region}/assets/square/${app.package_name}.png_tmp`, (await fetch(app.cover.square)).body as any);
-            await fs.rename(`pico/${region}/assets/square/${app.package_name}.png_tmp`, `pico/${region}/assets/square/${app.package_name}.png`);
+            await fs.writeFile(`pico/assets/${region}/square/${app.package_name}.png_tmp`, (await fetch(app.cover.square)).body as any);
+            await fs.rename(`pico/assets/${region}/square/${app.package_name}.png_tmp`, `pico/assets/${region}/square/${app.package_name}.png`);
         } catch(e) {
             console.log(`[PICO ${region.toUpperCase()}] Error saving square image for ${app.package_name}`);
-            await fs.rm(`pico/${region}/assets/square/${app.package_name}.png_tmp`);
+            await fs.rm(`pico/assets/${region}/square/${app.package_name}.png_tmp`);
         }
 
     }

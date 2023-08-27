@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import { getPicoApps } from "./pico";
 
 async function fetchPicoIcons(region: PicoAppRegion) {
-    await fs.mkdir(`pico/${region}/assets/icon`, { recursive: true });
+    await fs.mkdir(`pico/assets/${region}/icon`, { recursive: true });
 
     let packageList = (await getPicoApps(region)).map(a => a.package_name);
 
@@ -23,12 +23,12 @@ async function fetchPicoIcons(region: PicoAppRegion) {
 
             let app = (await res.json()).data;
 
-            await fs.writeFile(`pico/${region}/assets/icon/${app.package_name}.png_tmp`, (await fetch(app.icon)).body as any);
-            await fs.rename(`pico/${region}/assets/icon/${app.package_name}.png_tmp`, `pico/${region}/assets/square/${app.package_name}.png`);
+            await fs.writeFile(`pico/assets/${region}/icon/${app.package_name}.png_tmp`, (await fetch(app.icon)).body as any);
+            await fs.rename(`pico/assets/${region}/icon/${app.package_name}.png_tmp`, `pico/assets/${region}/icon/${app.package_name}.png`);
         } catch (e) {
             console.log(`[PICO ${region.toUpperCase()}] Error saving icon for ${packageName}`);
             try {
-                await fs.rm(`pico/${region}/assets/icon/${packageName}.png_tmp`);
+                await fs.rm(`pico/assets/${region}/icon/${packageName}.png_tmp`);
             } catch {}
         }
     }
