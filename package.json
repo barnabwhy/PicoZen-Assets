@@ -10,7 +10,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "pico:data": "ts-node pico-data.ts",
+    "pico:main": "ts-node pico.ts",
     "pico:icons": "ts-node pico-icons.ts"
   }
 }

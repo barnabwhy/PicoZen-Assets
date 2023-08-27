@@ -1,9 +1,10 @@
-name: Get Assets
+name: Fetch Assets
 on:
 - workflow_dispatch 
 
 jobs:
   assets:
+    name: Update Assets 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -13,7 +14,7 @@ jobs:
           node-version: 18.x
       - run: yarn install --frozen-lockfile
       
-      - run: yarn run pico:data
+      - run: yarn run pico:main
       - run: yarn run pico:icons
       - run: |
           git config user.name github-actions
