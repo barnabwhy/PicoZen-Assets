@@ -6,7 +6,7 @@ on:
 
 jobs:
   info:
-    name: Update Pico covers 
+    name: Update Pico info 
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
