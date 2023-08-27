@@ -21,7 +21,14 @@ async function fetchPicoIcons(region: PicoAppRegion) {
                 method: 'POST',
             });
         let app = (await res.json()).data;
-        fs.writeFile(`pico/${region}/assets/icon/${app.package_name}.png`, (await fetch(app.icon)).body as any)
+        
+        try {
+            await fs.writeFile(`pico/${region}/assets/icon/${app.package_name}.png_tmp`, (await fetch(app.icon)).body as any);
+            await fs.rename(`pico/${region}/assets/icon/${app.package_name}.png_tmp`, `pico/${region}/assets/square/${app.package_name}.png`);
+        } catch(e) {
+            console.log(`[PICO ${region.toUpperCase()}] Error saving icon for ${app.package_name}`);
+            await fs.rm(`pico/${region}/assets/icon/${app.package_name}.png_tmp`);
+        }
     }
 }
 
