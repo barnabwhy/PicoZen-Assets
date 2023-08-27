@@ -27,7 +27,9 @@ async function fetchPicoIcons(region: PicoAppRegion) {
             await fs.rename(`pico/${region}/assets/icon/${app.package_name}.png_tmp`, `pico/${region}/assets/square/${app.package_name}.png`);
         } catch (e) {
             console.log(`[PICO ${region.toUpperCase()}] Error saving icon for ${packageName}`);
-            await fs.rm(`pico/${region}/assets/icon/${packageName}.png_tmp`);
+            try {
+                await fs.rm(`pico/${region}/assets/icon/${packageName}.png_tmp`);
+            } catch {}
         }
     }
 }
