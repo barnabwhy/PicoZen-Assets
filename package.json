@@ -1,0 +1,12 @@
+{
+  "name": "picozen-assets",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Barnaby <22575741+barnabwhy@users.noreply.github.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.5.6",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
